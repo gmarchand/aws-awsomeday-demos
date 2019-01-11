@@ -1,3 +1,48 @@
 version: '2'
 
 # Go task : https://taskfile.org
+
+vars:
+  UUID:
+    sh:  echo "$(uuidgen | cut -c1-2)"
+
+tasks:
+  info:
+    desc: echo env vars
+    cmds:
+      - echo "uuid:{{.UUID}}"
+
+  static-cfn-deploy:
+    desc: deploy S3 bucket
+    cmds:
+        - aws cloudformation deploy --template-file {{.STATIC_TEMPLATE}} --capabilities CAPABILITY_IAM --stack-name {{.STATIC_STACK_NAME}}
+
+  static-deploy:
+    desc: deploy static website
+    cmds: 
+        - aws s3 sync ./static/ s3://{{.S3_BUCKET}}
+    vars:
+      S3_BUCKET:
+        sh: aws cloudformation describe-stacks --stack-name {{.STATIC_STACK_NAME}} --query 'Stacks[0].Outputs[?OutputKey==`S3Bucket`].OutputValue' --output text
+    
+  api-cfn-validate:
+    desc: Validate Cloudformation syntax
+    cmds:
+      - sam validate --template {{.TEMPLATE}}
+
+  api-cfn-package:
+    desc: transform and package cloudfomartion template to Amazon S3
+    deps: []
+    cmds:
+      - aws cloudformation package --s3-bucket {{.S3_BUCKET}} --template {{.TEMPLATE}} --output-template-file packaged.yaml
+
+  api-cfn-deploy:
+    desc: Deploy cloudformation template
+    deps: [package,validate]
+    cmds:
+      - aws cloudformation deploy --s3-bucket {{.S3_BUCKET}} --template-file packaged.yaml --capabilities CAPABILITY_IAM --stack-name {{.STACK_NAME}}
+
+  api-load-test:
+    desc: load test the API
+    cmds:
+    - locust -f loadtest/locustfile.py --host={{.API_URL}} --clients=200 --hatch-rate=10 --no-web --run-time 5m

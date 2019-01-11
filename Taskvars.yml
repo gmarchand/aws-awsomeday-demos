@@ -1,0 +1,4 @@
+API_STACK_NAME: aws-awsomeday-api
+API_TEMPLATE: cfn-api-template.yml
+STATIC_STACK_NAME: aws-awsomeday-static
+STATIC_TEMPLATE: cfn-template-static.yml
