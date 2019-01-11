@@ -16,9 +16,9 @@ Resources:
   HelloWorldGet:
     Type: 'AWS::Serverless::Function'
     Properties:
-      Handler: index.get
+      Handler: functions/index.get
       Runtime: python3.6
-      FunctionName: HelloWorldGet
+      #FunctionName: HelloWorldGet
       Description: HelloWorld Get Function
       Tags:
         AppName: !Ref name
@@ -41,9 +41,9 @@ Resources:
   HelloWorldList:
     Type: 'AWS::Serverless::Function'
     Properties:
-      Handler: index.list
+      Handler: functions/index.list
       Runtime: python3.6
-      FunctionName: HelloWorldList
+      #FunctionName: HelloWorldList
       Description: HelloWorld List Function
       Tags:
         AppName: !Ref name
@@ -66,9 +66,9 @@ Resources:
   HelloWorldPost:
     Type: 'AWS::Serverless::Function'
     Properties:
-      Handler: index.post
+      Handler: functions/index.post
       Runtime: python3.6
-      FunctionName: HelloWorldPost
+      #FunctionName: HelloWorldPost
       Description: HelloWorld Post Function
       Tags:
         AppName: !Ref name
@@ -94,7 +94,6 @@ Resources:
       PrimaryKey:
         Name: name
         Type: String
-      TableName: HelloTable
       Tags:
         AppName: !Ref name
         Environment: !Ref env

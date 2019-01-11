@@ -25,9 +25,6 @@ tasks:
       S3_BUCKET:
         sh: aws cloudformation describe-stacks --stack-name {{.STATIC_STACK_NAME}} --query 'Stacks[0].Outputs[?OutputKey==`S3Bucket`].OutputValue' --output text
 
-  lambda-layer-php-build:
-    desc: build PHP lambda lambda-layer
-
   api-cfn-validate:
     desc: Validate Cloudformation syntax
     cmds:
@@ -37,13 +34,13 @@ tasks:
     desc: transform and package cloudfomartion template to Amazon S3
     deps: []
     cmds:
-      - aws cloudformation package --s3-bucket {{.S3_BUCKET}} --template {{.TEMPLATE}} --output-template-file packaged.yaml
+      - aws cloudformation package --s3-bucket {{.S3_BUCKET}} --template {{.API_TEMPLATE}} --output-template-file packaged.yml
 
   api-cfn-deploy:
     desc: Deploy cloudformation template
-    deps: [package,validate]
+    deps: [api-cfn-package,api-cfn-validate]
     cmds:
-      - aws cloudformation deploy --s3-bucket {{.S3_BUCKET}} --template-file packaged.yaml --capabilities CAPABILITY_IAM --stack-name {{.STACK_NAME}}
+      - aws cloudformation deploy --s3-bucket {{.S3_BUCKET}} --template-file packaged.yml --capabilities CAPABILITY_IAM --stack-name {{.API_STACK_NAME}}
 
   api-load-test:
     desc: load test the API
