@@ -1,16 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: 'AWS::Serverless-2016-10-31'
-
-Parameters: 
-  name: 
-    Type: String
-    Default: HelloWorldApi
-    Description : Application name
-  env:
-    Type: String
-    Default: development
-    Description : Environment
-
 Resources:
 
   HelloWorldGet:
@@ -21,8 +10,8 @@ Resources:
       FunctionName: HelloWorldGet
       Description: HelloWorld Get Function
       Tags:
-        AppName: !Ref name
-        Environment: !Ref env
+        AppName: webinar-sample
+        Environment: sandbox
       Policies:
         - DynamoDBCrudPolicy:
             TableName:
@@ -37,6 +26,7 @@ Resources:
           Properties:
             Path: '/{name}'
             Method: get
+      Description: HelloWorld Get Function
 
   HelloWorldList:
     Type: 'AWS::Serverless::Function'
@@ -46,8 +36,8 @@ Resources:
       FunctionName: HelloWorldList
       Description: HelloWorld List Function
       Tags:
-        AppName: !Ref name
-        Environment: !Ref env
+        AppName: webinar-sample
+        Environment: sandbox
       Policies:
         - DynamoDBCrudPolicy:
             TableName:
@@ -71,8 +61,8 @@ Resources:
       FunctionName: HelloWorldPost
       Description: HelloWorld Post Function
       Tags:
-        AppName: !Ref name
-        Environment: !Ref env
+        AppName: webinar-sample
+        Environment: sandbox
       Policies:
         - DynamoDBCrudPolicy:
             TableName:
@@ -87,7 +77,8 @@ Resources:
           Properties:
             Path: '/{name}'
             Method: post
-    
+      
+
   HelloTable:
     Type: 'AWS::Serverless::SimpleTable'
     Properties:
@@ -96,8 +87,8 @@ Resources:
         Type: String
       TableName: HelloTable
       Tags:
-        AppName: !Ref name
-        Environment: !Ref env
+        AppName: webinar-sample
+        Environment: sandbox
 
 Outputs:
   ApigwURL:

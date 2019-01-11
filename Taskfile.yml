@@ -24,11 +24,14 @@ tasks:
     vars:
       S3_BUCKET:
         sh: aws cloudformation describe-stacks --stack-name {{.STATIC_STACK_NAME}} --query 'Stacks[0].Outputs[?OutputKey==`S3Bucket`].OutputValue' --output text
-    
+
+  lambda-layer-php-build:
+    desc: build PHP lambda lambda-layer
+
   api-cfn-validate:
     desc: Validate Cloudformation syntax
     cmds:
-      - sam validate --template {{.TEMPLATE}}
+      - aws cloudformation validate-template --template-body file://{{.API_TEMPLATE}}
 
   api-cfn-package:
     desc: transform and package cloudfomartion template to Amazon S3
