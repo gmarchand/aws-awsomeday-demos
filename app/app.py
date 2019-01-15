@@ -18,12 +18,14 @@ def list():
 # Get an item from the DynamoDB table
 @app.route("/<name>", methods=["GET"])
 def get(name):
-    return "GET Hello %s" %(name)
+    result = hello.get(name)
+    return json.dumps(result)
 
 # Post a new Item to the DynamoDB table
 @app.route("/<name>", methods=["POST"])
 def post(name):
-    return "POST Hello %s" %(name)
+    result = hello.post(name)
+    return json.dumps(result)
 
 if __name__ == "__main__":
     app.run(debug=True,host='0.0.0.0')
