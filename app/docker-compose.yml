@@ -5,3 +5,4 @@ app:
    - "5000:5000"
   volumes:
    - .:/app
+   - ~/.aws:/root/.aws
