@@ -1,6 +1,11 @@
-API_STACK_NAME: aws-awsomeday-api
-API_TEMPLATE: cfn-template-api.yml
-STATIC_STACK_NAME: aws-awsomeday-static
-STATIC_TEMPLATE: cfn-template-static.yml
+# TO CHANGE
 S3_BUCKET: gma-test
 DDB_TABLE: HelloTable
+
+# NO NEED TO CHANGE
+API_STACK_NAME: aws-awsomeday-api
+STATIC_STACK_NAME: aws-awsomeday-static
+
+# DO NOT CHANGE
+API_TEMPLATE: cfn-template-api.yml
+STATIC_TEMPLATE: cfn-template-static.yml

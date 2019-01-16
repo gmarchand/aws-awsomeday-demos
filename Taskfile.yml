@@ -20,15 +20,17 @@ tasks:
   static-deploy:
     desc: deploy static website
     cmds: 
-        - aws s3 sync ./static/ s3://{{.S3_BUCKET}}
+        - aws s3 sync ./static/ s3://{{.STATIC_S3_BUCKET}}
     vars:
-      S3_BUCKET:
+      STATIC_S3_BUCKET:
         sh: aws cloudformation describe-stacks --stack-name {{.STATIC_STACK_NAME}} --query 'Stacks[0].Outputs[?OutputKey==`S3Bucket`].OutputValue' --output text
   
   api-docker-local:
       desc: Docker compose up
       cmds:
         - docker-compose -f app/docker-compose.yml up
+      env:
+        TABLE_NAME: '{{.DDB_TABLE}}'
   
   api-sam-validate:
     desc: Validate Cloudformation syntax
