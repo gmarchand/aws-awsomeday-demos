@@ -18,7 +18,7 @@ Resources:
     Properties:
       Handler: functions/index.get
       Runtime: python3.6
-      #FunctionName: HelloWorldGet
+      FunctionName: HelloWorldGet
       Description: HelloWorld Get Function
       Tags:
         AppName: !Ref name
@@ -43,7 +43,7 @@ Resources:
     Properties:
       Handler: functions/index.list
       Runtime: python3.6
-      #FunctionName: HelloWorldList
+      FunctionName: HelloWorldList
       Description: HelloWorld List Function
       Tags:
         AppName: !Ref name
@@ -68,7 +68,7 @@ Resources:
     Properties:
       Handler: functions/index.post
       Runtime: python3.6
-      #FunctionName: HelloWorldPost
+      FunctionName: HelloWorldPost
       Description: HelloWorld Post Function
       Tags:
         AppName: !Ref name
@@ -97,7 +97,7 @@ Resources:
       Tags:
         AppName: !Ref name
         Environment: !Ref env
-
+        
 Outputs:
   ApigwURL:
     Description: API Gateway endpoint URL

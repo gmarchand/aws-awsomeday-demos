@@ -24,25 +24,47 @@ tasks:
     vars:
       S3_BUCKET:
         sh: aws cloudformation describe-stacks --stack-name {{.STATIC_STACK_NAME}} --query 'Stacks[0].Outputs[?OutputKey==`S3Bucket`].OutputValue' --output text
-
-  api-cfn-validate:
+  
+  api-docker-local:
+      desc: Docker compose up
+      cmds:
+        - docker-compose -f app/docker-compose.yml up
+  
+  api-sam-validate:
     desc: Validate Cloudformation syntax
     cmds:
       - aws cloudformation validate-template --template-body file://{{.API_TEMPLATE}}
 
-  api-cfn-package:
+  api-sam-package:
     desc: transform and package cloudfomartion template to Amazon S3
     deps: []
     cmds:
-      - aws cloudformation package --s3-bucket {{.S3_BUCKET}} --template {{.API_TEMPLATE}} --output-template-file packaged.yml
+      - aws cloudformation package --s3-bucket {{.S3_BUCKET}} --template {{.API_TEMPLATE}} --output-template-file build/packaged.yml
+  
+  api-sam-local:
+    desc: Run local api
+    cmds:
+      - sam local start-api --template {{.API_TEMPLATE}}
+    env:
+      TABLE_NAME: '{{.DDB_TABLE}}'
 
-  api-cfn-deploy:
+  api-sam-test:
+    desc: http get Api deployed
+    cmds:
+      - http {{.API_URL}} --json
+      - http POST {{.API_URL}}/bob --json
+      - http GET {{.API_URL}}/bob --json
+    vars:
+      API_URL:
+        sh: aws cloudformation describe-stacks --stack-name {{.API_STACK_NAME}} --query 'Stacks[0].Outputs[?OutputKey==`ApigwURL`].OutputValue' --output text
+  
+  api-sam-deploy:
     desc: Deploy cloudformation template
     deps: [api-cfn-package,api-cfn-validate]
     cmds:
-      - aws cloudformation deploy --s3-bucket {{.S3_BUCKET}} --template-file packaged.yml --capabilities CAPABILITY_IAM --stack-name {{.API_STACK_NAME}}
+      - aws cloudformation deploy --s3-bucket {{.S3_BUCKET}} --template-file build/packaged.yml --capabilities CAPABILITY_IAM --stack-name {{.API_STACK_NAME}}
 
-  api-load-test:
+  api-sam-loadtest:
     desc: load test the API
     cmds:
     - locust -f loadtest/locustfile.py --host={{.API_URL}} --clients=200 --hatch-rate=10 --no-web --run-time 5m
