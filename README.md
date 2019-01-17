@@ -4,9 +4,9 @@
 
 ## Prerequis
 
-- If you use AWS Cloud 9, you can upgrade system and applicationpackages with this shell script `cloud9/bootstrap.sh`
+- If you use AWS Cloud 9, you can upgrade system and application packages with this shell script `cloud9/bootstrap.sh`. Else if you need to install Docker and [AWS SAM CLI](https://aws.amazon.com/serverless/sam/)
 
-- [Task](https://taskfile.org/) is a task runner, an alternative of Makefile. You need to [install it](https://taskfile.org/#/installation?id=install-script) :
+- Install [Task](https://taskfile.org/) is a task runner, an alternative of Makefile.
 
 ```bash
 curl -s https://taskfile.org/install.sh | sh
@@ -29,6 +29,10 @@ mv ./bin/task /usr/local/bin/
 
 1. Deploy the static website `task static-deploy`
 
+1. Show the source code in AWS S3 Console
+
+1. Show the website
+
 ## Demo : Static Website on EC2
 
 **Objective :**
@@ -45,17 +49,20 @@ mv ./bin/task /usr/local/bin/
 
 **Objective :** Deploy a CRUD API on ECS Fargate
 
-1. Deploy the API on local inside a container `task api-docker-local`
+1. Test the API on local inside a container `task api-docker-local`
 
-1. Test it with HTTPie
+1. Test the API with HTTPie `http POST http://127.0.0.1:5000/squirrel` and `http GET http://127.0.0.1:5000/squirrel`
 
 ## Demo : Python API on Lambda
+**Objective :** Deploy the same CRUD API on API Gateway and Lambda
 
-1. Deploy the sam API on local with SAM `task api-docker-local`
+1. Test the local Lambda function with SAM `task api-sam-local-invoke`
 
-1. Test it with HTTPie
+1. Test the local API with SAM `ask api-sam-local`
 
-**Objective :** 
+1. Test the API with HTTPie `http POST http://127.0.0.1:3000/squirrel` and `http GET http://127.0.0.1:3000/squirrel`
+
+
 
 ## Bibliography
 
