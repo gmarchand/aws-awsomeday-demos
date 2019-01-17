@@ -3,8 +3,10 @@ version: '2'
 # Go task : https://taskfile.org
 
 vars:
-  UUID:
-    sh:  echo "$(uuidgen | cut -c1-2)"
+  AWS_REGION:
+    sh:  aws configure get region
+  AWS_ACCOUNT_ID:
+    sh: aws sts get-caller-identity --output text --query 'Account'
 
 tasks:
   info:
@@ -31,7 +33,13 @@ tasks:
         - docker-compose -f app/docker-compose.yml up
       env:
         TABLE_NAME: '{{.DDB_TABLE}}'
-  
+  api-ecr-push:
+      desc: push container to Amazon ECR registry
+      cmds:
+        - $(aws ecr get-login --no-include-email --region {{.AWS_REGION}})
+        - docker build -t {{.API_STACK_NAME}} app/
+        - docker tag {{.API_STACK_NAME}}:latest {{.AWS_ACCOUNT_ID}}.dkr.ecr.{{.AWS_REGION}}.amazonaws.com/{{.API_STACK_NAME}}:latest
+        - docker push 862440218923.dkr.ecr.{{.AWS_REGION}}.amazonaws.com/{{.API_STACK_NAME}}:latest
   api-sam-validate:
     desc: Validate Cloudformation syntax
     cmds:
