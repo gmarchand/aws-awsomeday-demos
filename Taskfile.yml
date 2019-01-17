@@ -49,6 +49,13 @@ tasks:
       - sam local start-api --template {{.API_TEMPLATE}}
     env:
       TABLE_NAME: '{{.DDB_TABLE}}'
+  
+  api-sam-local-invoke:
+    desc: Invoke local Lambda
+    cmds:
+      - sam local invoke "HelloWorldGet" --template {{.API_TEMPLATE}} --event sam-local-invoke-event.json
+    env:
+      TABLE_NAME: '{{.DDB_TABLE}}'
 
   api-sam-test:
     desc: http get Api deployed
