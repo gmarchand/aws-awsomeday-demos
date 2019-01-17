@@ -1,0 +1,10 @@
+environments:
+- name: acceptance
+- name: production
+service:
+  name: aws-awsomeday-demos
+  port: 80
+  healthEndpoint: /
+  pathPatterns:
+  - /*
+  pipeline:
