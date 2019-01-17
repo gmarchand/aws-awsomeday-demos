@@ -1,19 +1,21 @@
 from hello.hello import HelloYou
-from flask import Flask
-import os
+import json
+import datetime
 import boto3
+import os
+import logging
+
+from flask import Flask
+
+
 import json
 
 app = Flask(__name__)
 
+# TODO : Fix Region Name
 session = boto3.session.Session(region_name="eu-west-1")
+# TODO : Fix table name to env var.
 hello = HelloYou(session, 'aws-awsomeday-api-HelloTable-13QO3YN75QYQB')
-
-# List all items of the DynamoDB Table
-@app.route("/", methods=["GET"])
-def list():
-    result = hello.list()
-    return json.dumps(result)
 
 # Get an item from the DynamoDB table
 @app.route("/<name>", methods=["GET"])

@@ -38,31 +38,6 @@ Resources:
             Path: '/{name}'
             Method: get
 
-  HelloWorldList:
-    Type: 'AWS::Serverless::Function'
-    Properties:
-      Handler: functions/index.list
-      Runtime: python3.6
-      FunctionName: HelloWorldList
-      Description: HelloWorld List Function
-      Tags:
-        AppName: !Ref name
-        Environment: !Ref env
-      Policies:
-        - DynamoDBCrudPolicy:
-            TableName:
-              Ref: HelloTable
-      Environment:
-        Variables:
-          TABLE_NAME:
-            Ref: HelloTable
-      Events:
-        GetEvent:
-          Type: Api
-          Properties:
-            Path: /
-            Method: get
-      
   HelloWorldPost:
     Type: 'AWS::Serverless::Function'
     Properties:
