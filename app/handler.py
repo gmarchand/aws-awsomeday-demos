@@ -9,7 +9,7 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 # @TODO : Fix Region Name
-session = boto3.session.Session(region_name="eu-west-1")
+session = boto3.session.Session()
 hello = HelloYou(session, os.environ['TABLE_NAME'])
 
 # Get an item from the DynamoDB table
