@@ -9,11 +9,6 @@ vars:
     sh: aws sts get-caller-identity --output text --query 'Account'
 
 tasks:
-  info:
-    desc: echo env vars
-    cmds:
-      - echo "uuid:{{.UUID}}"
-
   static-cfn-deploy:
     desc: deploy S3 bucket
     cmds:
@@ -33,6 +28,8 @@ tasks:
         - docker-compose -f app/docker-compose.yml up
       env:
         TABLE_NAME: '{{.DDB_TABLE}}'
+        AWS_REGION: '{{.AWS_REGION}}'
+  
   api-ecr-push:
       desc: push container to Amazon ECR registry
       cmds:
@@ -40,6 +37,7 @@ tasks:
         - docker build -t {{.API_STACK_NAME}} app/
         - docker tag {{.API_STACK_NAME}}:latest {{.AWS_ACCOUNT_ID}}.dkr.ecr.{{.AWS_REGION}}.amazonaws.com/{{.API_STACK_NAME}}:latest
         - docker push 862440218923.dkr.ecr.{{.AWS_REGION}}.amazonaws.com/{{.API_STACK_NAME}}:latest
+  
   api-sam-validate:
     desc: Validate Cloudformation syntax
     cmds:

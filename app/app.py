@@ -12,10 +12,8 @@ import json
 
 app = Flask(__name__)
 
-# TODO : Fix Region Name
-session = boto3.session.Session(region_name="eu-west-1")
-# TODO : Fix table name to env var.
-hello = HelloYou(session, 'aws-awsomeday-api-HelloTable-13QO3YN75QYQB')
+session = boto3.session.Session()
+hello = HelloYou(session, os.environ['TABLE_NAME'])
 
 # Get an item from the DynamoDB table
 @app.route("/<name>", methods=["GET"])
