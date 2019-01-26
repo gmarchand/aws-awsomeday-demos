@@ -1,0 +1,23 @@
+---
+Parameters:
+  TableName:
+    Type: String
+  PrimaryKeyName:
+    Type: String
+  PrimaryKeyType:
+    Type: String
+Resources:
+  DynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName:
+          Ref: TableName
+      AttributeDefinitions:
+        - AttributeName: 
+            Ref: PrimaryKeyName
+          AttributeType:
+            Ref: PrimaryKeyType
+      KeySchema:
+        - KeyType: HASH
+          AttributeName:
+            Ref: PrimaryKeyName

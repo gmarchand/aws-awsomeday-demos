@@ -1,10 +1,34 @@
 environments:
 - name: acceptance
+  provider: ecs-fargate
+  loadbalancer:
+    name: hello-acceptance
 - name: production
+  provider: ecs-fargate
+  loadbalancer:
+    name: hello
+
+extensions:
+  - url: dynamodb
+
 service:
   name: aws-awsomeday-demos
+  dockerfile: ./Dockerfile
   port: 80
   healthEndpoint: /
   pathPatterns:
   - /*
   pipeline:
+  environment:
+    TABLE_NAME: 
+      acceptance: ${env:TABLE_NAME}-acceptance
+      production: ${env:TABLE_NAME}-production
+  
+parameters:
+  # parameters for the DynamoDB extension
+  Properties:
+    TableName: 
+      acceptance: ${env:TABLE_NAME}-acceptance
+      production: ${env:TABLE_NAME}-production
+    PrimaryKeyName: name
+    PrimaryKeyType: S        
