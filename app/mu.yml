@@ -3,22 +3,9 @@ environments:
   provider: ecs-fargate
   loadbalancer:
     name: hello-acceptance
-
 service:
   name: aws-awsomeday-demos
   port: 80
   healthEndpoint: /
   pathPatterns:
   - /*
-  # # https://github.com/stelligent/mu/blob/develop/examples/custom-cloudformation/mu.yml
-  # environment:
-  #   TABLE_NAME: HelloTable
-
-# parameters:
-#   # parameters for the DynamoDB extension
-#   Properties:
-#     PrimaryKeyName: name
-#     PrimaryKeyType: S
-
-# extensions:
-#   - url: dynamodb
