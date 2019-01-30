@@ -5,7 +5,7 @@ environments:
     name: hello-acceptance
 service:
   name: aws-awsomeday-demos
-  port: 80
+  port: 5000
   healthEndpoint: /
   pathPatterns:
   - /*
