@@ -6,6 +6,7 @@ environments:
 service:
   name: aws-awsomeday-demos
   port: 5000
+  discoveryTTL: 5
   healthEndpoint: /
   pathPatterns:
   - /*
