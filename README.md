@@ -17,6 +17,8 @@ mv ./bin/task /usr/local/bin/
 
 - Install [HTTPie](https://httpie.org/doc#linux), a command line HTTP client with an intuitive UI and JSON support.
 
+- Install [MU](https://github.com/stelligent/mu/wiki/Installation)
+
 ## Demo : Static Website on S3
 
 **Objective :** You don't need to deploy a static html/js webapp on compute, you just need to deploy your archive to an Amazon S3 bucket.
@@ -53,7 +55,17 @@ mv ./bin/task /usr/local/bin/
 
 1. Test the API with HTTPie `http POST http://127.0.0.1:5000/squirrel` and `http GET http://127.0.0.1:5000/squirrel`
 
+1. Create the ECS Fargate Cluster with MU `task api-mu-env-deploy`
+
+1. Deploy the API service on ECS Fargate with MU `task api-mu-service-deploy`
+
+1. Test the API with HTTPie `http POST <FARGATE_ELB>/squirrel` and `http GET <FARGATE_ELB>/squirrel`
+
+1. **TODO:** Load Test
+
+
 ## Demo : Python API on Lambda
+
 **Objective :** Deploy the same CRUD API on API Gateway and Lambda
 
 1. Test the local Lambda function with SAM `task api-sam-local-invoke`
@@ -62,12 +74,14 @@ mv ./bin/task /usr/local/bin/
 
 1. Test the API with HTTPie `http POST http://127.0.0.1:3000/squirrel` and `http GET http://127.0.0.1:3000/squirrel`
 
+1. Deploy the API service on Lambda and API Gateway `task api-sam-deploy`
+
+1. **TODO:** Load test 
 
 
-## Bibliography
+## TODO
+[API TEST with Newman](https://github.com/stelligent/mu/blob/develop/examples/pipeline-newman/buildspec-test.yml)
 
-<https://medium.com/@mtngt/docker-flask-a-simple-tutorial-bbcb2f4110b5>
+[Add DynamoDB to MU](https://github.com/stelligent/mu-ref-dynamodb)
 
-<https://github.com/shekhargulati/python-flask-docker-hello-world>
-
-<https://auth0.com/blog/developing-restful-apis-with-python-and-flask/>
+[Load Test with Artillery Pro](https://artillery.io/pro/)

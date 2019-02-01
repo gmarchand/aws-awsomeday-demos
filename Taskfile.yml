@@ -41,13 +41,14 @@ tasks:
   api-mu-env-deploy:
       desc: create ecs fargate env with mu
       cmds:
-        - mu environment upsert acceptance
+        - mu --config app/mu.yml environment upsert acceptance
   
   api-mu-service-deploy:
       desc: deploy ecs fargate service with mu
       cmds:
-        - mu service push
-        - mu service deploy acceptance
+        - mu --config app/mu.yml service push 
+        - mu --config app/mu.yml service deploy acceptance
+        - mu --config app/mu.yml environment show acceptance
   
   api-sam-validate:
     desc: Validate Cloudformation syntax
