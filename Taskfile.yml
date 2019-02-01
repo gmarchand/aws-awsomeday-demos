@@ -38,6 +38,17 @@ tasks:
         - docker tag {{.API_STACK_NAME}}:latest {{.AWS_ACCOUNT_ID}}.dkr.ecr.{{.AWS_REGION}}.amazonaws.com/{{.API_STACK_NAME}}:latest
         - docker push 862440218923.dkr.ecr.{{.AWS_REGION}}.amazonaws.com/{{.API_STACK_NAME}}:latest
   
+  api-mu-env-deploy:
+      desc: create ecs fargate env with mu
+      cmds:
+        - mu environment upsert acceptance
+  
+  api-mu-service-deploy:
+      desc: deploy ecs fargate service with mu
+      cmds:
+        - mu service push
+        - mu service deploy acceptance
+  
   api-sam-validate:
     desc: Validate Cloudformation syntax
     cmds:
